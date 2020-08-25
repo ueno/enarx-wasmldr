@@ -23,6 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - run: sudo apt update
+      - run: sudo apt install -y musl-tools
       - uses: actions-rs/toolchain@v1
         with:
           target: x86_64-unknown-linux-musl

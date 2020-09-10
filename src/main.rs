@@ -32,10 +32,17 @@ fn main() {
     let _ = env_logger::try_init_from_env(env_logger::Env::default());
 
     let mut args = std::env::args().skip(1);
-    let path = args.next().unwrap();
     let vars = std::env::vars();
 
-    let bytes = std::fs::read(&path).expect("Unable to open file");
+    let bytes;
+    if let Some(path) = args.next() {
+        bytes = std::fs::read(&path).expect("Unable to open file");
+    } else {
+        bytes = include_bytes!(concat!(
+            env!("OUT_DIR"),
+            "/fixtures/hello_wasi_snapshot1.wasm"
+        )).to_vec();
+    }
 
     let result = workload::run(&bytes, args, vars).expect("Failed to run workload");
 

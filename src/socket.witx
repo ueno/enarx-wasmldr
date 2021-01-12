@@ -1,0 +1,16 @@
+(use "typenames.witx")
+
+(module $wasi_ephemeral_socket
+  ;;; Linear memory to be accessed by WASI functions that need it.
+  (import "memory" (memory))
+
+  ;;; Accept an incoming connection.
+  ;;;
+  ;;; Note: this is far from ideal; it should derive the fd from a
+  ;;; pre-opened fd to allow multiple addresses to be bound.
+  (@interface func (export "accept")
+    (result $error $errno)
+    ;;; The file descriptor that has been opened.
+    (result $opened_fd $fd)
+  )
+)

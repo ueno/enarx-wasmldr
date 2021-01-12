@@ -55,4 +55,5 @@ pub struct Stdio {
 #[derive(Debug, Default, PartialEq, Serialize, Deserialize)]
 pub struct Config {
     pub stdio: Stdio,
+    pub listen_address: Option<String>,
 }

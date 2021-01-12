@@ -164,6 +164,19 @@ pub fn run<T: AsRef<[u8]>, U: AsRef<[u8]>, V: std::borrow::Borrow<(U, U)>>(
     builder.preopened_virt(root.into(), ".");
 
     let ctx = builder.build().or(Err(Error::InstantiationFailed))?;
+
+    match deploy_config.listen_address {
+        Some(address) => {
+            let listener = std::net::TcpListener::bind(address)?;
+            let socket_ctx = crate::socket::WasiSocketCtx::new(&ctx.clone(), listener);
+            let socket = crate::socket::WasiSocket::new(&linker.store(), socket_ctx);
+            socket
+                .add_to_linker(&mut linker)
+                .or(Err(Error::InstantiationFailed))?;
+        }
+        _ => {}
+    }
+
     let wasi = wasmtime_wasi::Wasi::new(linker.store(), ctx);
     wasi.add_to_linker(&mut linker)
         .or(Err(Error::InstantiationFailed))?;

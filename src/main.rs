@@ -30,6 +30,8 @@
 
 mod bundle;
 mod config;
+mod handle;
+mod socket;
 mod virtfs;
 mod workload;
 

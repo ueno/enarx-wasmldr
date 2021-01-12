@@ -39,6 +39,11 @@ cfg-if = "1.0"
 [build-dependencies]
 wat = "1.0"
 
+[patch.crates-io]
+wasi-common = { git = "https://github.com/ueno/wasmtime.git", rev = "79994cf001ed3852568765515e4e4f6ebec21962" }
+wasmtime-wasi = { git = "https://github.com/ueno/wasmtime.git", rev = "79994cf001ed3852568765515e4e4f6ebec21962" }
+wasmtime = { git = "https://github.com/ueno/wasmtime.git", rev = "79994cf001ed3852568765515e4e4f6ebec21962" }
+
 [profile.release]
 incremental = false
 codegen-units = 1
